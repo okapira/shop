@@ -11,14 +11,16 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                @if (Auth::check())
+                    @if (Auth::user()->is_admin == True)
+                        <li class="nav-item">{!! link_to_route('items.create', '商品追加', [],['class' => 'nav-link']) !!}</li>
+                        </li>
+                    @endif
                     {{-- カートページへのリンク --}}
-                    <li class="nav-item"><a href="#" class="nav-link">Cart</a></li>
+                    <li class="nav-item">{!! link_to_route('carts.index', 'Cart', [], ['class' => 'nav-link']) !!}</li>
+                    </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <!--{{-- ユーザ詳細ページへのリンク --}}-->
-                            <!--<li class="dropdown-item"><a href="#">My account</a></li>-->
-                            <!--<li class="dropdown-divider"></li>-->
                             {{-- ログアウトへのリンク --}}
                             <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
                         </ul>

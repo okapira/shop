@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>id: {{ $item->id }} の商品編集ページ</h1>
+    <h1>{{ $item->name }}の商品編集ページ</h1>
 
     <div class="row">
         <div class="col-6">

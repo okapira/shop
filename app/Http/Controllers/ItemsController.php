@@ -17,43 +17,11 @@ class ItemsController extends Controller
     {
         // アイテム一覧を取得
         $items = Item::all();
-
+        
         // アイテム一覧ビューでそれを表示
         return view('items.index', [
             'items' => $items,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $item = new Item;
-
-        // メッセージ作成ビューを表示
-        return view('items.create', [
-            'item' => $item,
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // 商品追加
-        $item = new Item;
-        $item->content = $request->content;
-        $item->save();
-
-        // リターンバック
-        return back();
     }
 
     /**
@@ -64,59 +32,49 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-         // idの値でアイテムを検索して取得
+        // idの値でアイテムを検索して取得
         $item = Item::findOrFail($id);
-
+        
         // アイテム詳細ビューでそれを表示
         return view('items.show', [
             'item' => $item,
         ]);
     }
-
+    
+        
     /**
-     * Update the specified resource in storage.
+     * ユーザのカート一覧ページを表示するアクション。
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  $id  ユーザのid
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function carts($id)
     {
         // idの値でアイテムを検索して取得
         $item = Item::findOrFail($id);
-        // アイテムを更新
-        $item->content = $request->content;
-        $item->save();
 
-        // リターンバック
-        return back();
+        // 関係するモデルの件数をロード
+        $item->loadRelationshipCounts();
+
+        // ユーザのカート一覧を取得
+        $item = $user->carts()->paginate();
+
+        // カート一覧ビューでそれらを表示
+        return view('items.carts', [
+            'user' => $user,
+            'item' => $item,
+            'quantity' => $quantity,
+        ]);
     }
-
+    
     /**
-     * Remove the specified resource from storage.
+     * Display a listing of the resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function thanks()
     {
-        // idの値でアイテムを検索して取得
-        $item = Item::findOrFail($id);
-        // アイテムを削除
-        $item->delete();
-
-        // リターンバック
-        return back();
+        // 購入確定ページを表示
+        return view('items.thanks');
     }
 }

@@ -2,7 +2,8 @@
 
 @section('content')
     @if (Auth::check())
-        {{ Auth::user()->name }}
+        {{-- 商品一覧ページへのリンク --}}
+        {!! link_to_route('items.index', '商品一覧', [], ['class' => 'btn btn-primary']) !!}
     @else
         <div class="center jumbotron">
             <div class="text-center">
